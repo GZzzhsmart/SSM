@@ -18,6 +18,7 @@ public class PayTypeController {
     @Autowired
     private PayTypeService payTypeService;
 
+    //在easyUI下拉选项框combobox列出所有的支付类型
     @RequestMapping("all")
     @ResponseBody
     public List<Combobox> all() {
