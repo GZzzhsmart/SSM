@@ -19,6 +19,7 @@ public class CashTypeController {
     @Autowired
     private CashTypeService cashTypeService;
 
+    //列出所有支付方式到下拉选项框中
     @RequestMapping("get/{pid}")
     @ResponseBody
     public List<Combobox> getByPid(@PathVariable("pid") Long pid) {
