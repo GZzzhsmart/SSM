@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class IndexController {
 
+    //添加首页控制器
     @RequestMapping("")
     public String index() {
         return "user/login";
