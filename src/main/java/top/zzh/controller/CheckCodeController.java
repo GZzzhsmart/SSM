@@ -17,9 +17,11 @@ import java.io.OutputStream;
 @Controller
 @RequestMapping("/code")
 public class CheckCodeController {
-
+    
+    //日志记录
     private Logger logger = LoggerFactory.getLogger(CheckCodeController.class);
-
+    
+    //控制生成验证码
     @RequestMapping("")
     public void code(HttpSession session, HttpServletResponse response) {
         String code = CheckCodeUtils.randomCode();
