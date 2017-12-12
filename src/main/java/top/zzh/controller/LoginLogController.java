@@ -28,12 +28,14 @@ public class LoginLogController {
         return "log/login_log";
     }
 
+    //多条件查询支持分页
     @RequestMapping("pager_criteria")
     @ResponseBody
     public Pager pagerCriteria(int page, int rows, LoginLogQuery loginLogQuery) {
         return loginLogService.listPagerCriteria(page, rows, loginLogQuery);
     }
 
+    //删除数据
     @RequestMapping("delete/{id}")
     @ResponseBody
     public ControllerStatusVO delete(@PathVariable("id") Long id){
