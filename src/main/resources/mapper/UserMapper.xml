@@ -1,0 +1,49 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="top.zzh.dao.UserDAO">
+
+	<select id="getByPhonePwd" resultType="user">
+		<![CDATA[
+			select id, phone, realname, reg_time from t_user where phone = #{phone} and pwd = #{pwd}
+		]]>
+	</select>
+
+	<insert id="save" parameterType="top.zzh.bean.User">
+	<![CDATA[
+		insert into t_user(phone,pwd,realname,reg_time) values(#{phone},#{pwd},#{realname},#{regTime})
+	 ]]>
+	</insert>
+
+	<delete id="removeById" parameterType="java.lang.Long">
+		<![CDATA[
+			delete from t_user where id = #{id}
+		]]>
+	</delete>
+
+	<select id="listPagerCriteria" resultType="top.zzh.bean.User">
+		<![CDATA[
+			select * from t_user
+		 ]]>
+	</select>
+
+	<select id="countCriteria" resultType="long">
+		<![CDATA[
+			select count(*) from t_user
+		]]>
+	</select>
+
+	<update id="update" parameterType="top.zzh.bean.User">
+		<![CDATA[
+			update t_user set phone = #{phone},realname = #{realname},reg_time=CURRENT_TIMESTAMP where id = #{id}
+		 ]]>
+	</update>
+
+	<update id="updatePwd"  parameterType="top.zzh.bean.User">
+		<![CDATA[
+        	update t_user set pwd = #{pwd} where id = #{id}
+        ]]>
+	</update>
+
+</mapper>
