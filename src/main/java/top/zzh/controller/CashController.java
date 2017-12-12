@@ -37,6 +37,7 @@ public class CashController {
         return "cash/cash";
     }
 
+    //新增
     @RequestMapping("save")
     @ResponseBody
     public ControllerStatusVO save(HttpSession session, Cash cash) {
@@ -53,6 +54,7 @@ public class CashController {
         return statusVO;
     }
 
+    //修改
     @RequestMapping("update")
     @ResponseBody
     public ControllerStatusVO update(Cash cash){
@@ -80,12 +82,14 @@ public class CashController {
         return statusVO;
     }
 
+    //多条件查询+分页
     @RequestMapping("pager_criteria")
     @ResponseBody
     public Pager pagerCriteria(int page, int rows, CashQuery cashQuery) {
         return cashService.listPagerCriteria(page, rows, cashQuery);
     }
 
+    //POI导出Excel表格
     @RequestMapping("export")
     public void exportExcel(HttpServletResponse response, CashQuery cashQuery) {
         Workbook workbook = cashService.export(cashQuery);
@@ -101,6 +105,7 @@ public class CashController {
         }
     }
 
+    //时间控制器
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
