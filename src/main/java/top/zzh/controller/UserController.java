@@ -34,7 +34,10 @@ public class UserController {
     private UserService userService;
     @Autowired
     private LoginLogService loginLogService;
-
+    
+    /*
+    *简单的登录权限验证+登录日志
+    */
     @PostMapping("login")
     @ResponseBody
     public ControllerStatusVO login(HttpServletRequest request,HttpSession session, String phone, String pwd, String code) {
@@ -65,7 +68,8 @@ public class UserController {
         }
         return statusVO;
     }
-
+    
+    //用户的注册
     @RequestMapping("save")
     @ResponseBody
     public ControllerStatusVO save(User user,HttpSession session) {
@@ -82,13 +86,13 @@ public class UserController {
         return statusVO;
     }
 
+    //用户的修改
     @RequestMapping("update")
     @ResponseBody
     public ControllerStatusVO update(User user,HttpSession session) {
         ControllerStatusVO statusVO = null;
         try{
             userService.update(user);
-//            session.setAttribute(Constants.USER_IN_SESSION,user);
         }catch (RuntimeException e){
             statusVO = ControllerStatusVO.status(ControllerStatusEnum.CASH_UPDATE_FAIL);
         }
@@ -96,6 +100,7 @@ public class UserController {
         return statusVO;
     }
 
+    //用户的删除
     @RequestMapping("delete/{id}")
     @ResponseBody
     public ControllerStatusVO delete(@PathVariable("id") Long id){
@@ -109,7 +114,7 @@ public class UserController {
         return statusVO;
     }
 
-    //页面还没有实现修改密码的功能，只实现了用户的crud(增删改查)
+    
     @RequestMapping(value = "updatePassword",method = RequestMethod.POST)
     @ResponseBody
     public ControllerStatusVO updatePassword(@Param("pwd")String pwd, @Param("newPwd")String newPwd, @Param("conPwd")String conPwd, @Param("user") User user,HttpSession session){
@@ -129,6 +134,7 @@ public class UserController {
 
     }
 
+    //分页
     @RequestMapping("pager_criteria")
     @ResponseBody
     public Pager pagerCriteria(int page, int rows, User user) {
@@ -145,6 +151,7 @@ public class UserController {
         return "user/user";
     }
 
+    //退出+登录日志（退出时间的添加）
     @RequestMapping("logout")
     public String logout(HttpSession session) {
         User user = (User) session.getAttribute(Constants.USER_IN_SESSION);
