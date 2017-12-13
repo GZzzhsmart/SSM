@@ -64,7 +64,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int updatePwd(User user) {
-        return userDAO.updatePwd(user);
+    public String checkPwd(String phone) {
+        return userDAO.checkPwd(phone);
+    }
+
+    @Override
+    public void updatePwd(Long id, String pwd) {
+        userDAO.updatePwd(id,pwd);
     }
 }
