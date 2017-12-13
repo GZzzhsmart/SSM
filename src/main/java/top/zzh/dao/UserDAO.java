@@ -12,7 +12,11 @@ public interface UserDAO extends BaseDAO {
 
     User getByPhonePwd(@Param("phone") String phone, @Param("pwd") String pwd);
 
-    int updatePwd(@Param("user") User user);
+     //检查登录密码
+    String checkPwd(@Param("phone") String phone);
+    //修改登录密码
+    void updatePwd(@Param("id") Long id,@Param("pwd") String pwd);
+
 
     @Override
     List<Object> listPagerCriteria(@Param("pager") Pager pager, @Param("query") Object obj);
