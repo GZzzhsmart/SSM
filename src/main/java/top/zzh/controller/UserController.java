@@ -115,23 +115,30 @@ public class UserController {
     }
 
     
-    @RequestMapping(value = "updatePassword",method = RequestMethod.POST)
+    //检查用户密码
+    @RequestMapping("checkPwd")
     @ResponseBody
-    public ControllerStatusVO updatePassword(@Param("pwd")String pwd, @Param("newPwd")String newPwd, @Param("conPwd")String conPwd, @Param("user") User user,HttpSession session){
-//        ControllerStatusVO statusVO = null;
-//        User user = (User)session.getAttribute(Constants.USER_IN_SESSION);
-        if (user.getPwd().equals(EncryptUtils.md5(pwd)) && newPwd != null && conPwd != null && newPwd.equals(conPwd)) {
-            System.out.println(user.getPwd());
-            System.out.println(EncryptUtils.md5(pwd));
-            System.out.println(newPwd+""+conPwd);
-            user.setPwd(EncryptUtils.md5(newPwd));
-            userService.updatePwd(user);
-//            session.removeAttribute(Constants.USER_IN_SESSION);
+    public ControllerStatusVO checkPwd(String oldpwd,HttpSession session){
+        User user = (User)session.getAttribute(Constants.USER_IN_SESSION);
+        String pwd = userService.checkPwd(user.getPhone());
+        if(!pwd.equals(EncryptUtils.md5(oldpwd))){
+            return ControllerStatusVO.status(ControllerStatusEnum.CHECK_PASSWORD_FAIL);
+        }else {
+            return ControllerStatusVO.status(ControllerStatusEnum.CHECK_PASSWORD_SUCCESS);
+        }
+    }
+
+    //修改用户密码
+    @RequestMapping("updatePwd")
+    @ResponseBody
+    public ControllerStatusVO updatePwd(String newPwd,HttpSession session){
+        try{
+            User user = (User)session.getAttribute(Constants.USER_IN_SESSION);
+            userService.updatePwd(user.getId(),EncryptUtils.md5(newPwd));
             return ControllerStatusVO.status(ControllerStatusEnum.CASH_PASSWORD_SUCCESS);
-        } else {
+        }catch (RuntimeException e){
             return ControllerStatusVO.status(ControllerStatusEnum.CASH_PASSWORD_FAIL);
         }
-
     }
 
     //分页
