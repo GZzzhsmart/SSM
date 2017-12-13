@@ -7,7 +7,8 @@ public interface UserService extends BaseService {
 
     User getByPhonePwd(String phone, String pwd);
 
-    int updatePwd(User user);
+    String checkPwd(String phone);
+    void updatePwd(Long id,String pwd);
 
 
 }
