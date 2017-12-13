@@ -14,8 +14,11 @@ public enum ControllerStatusEnum {
     CASH_DELETE_SUCCESS(107, "ok", "删除成功"),
     CASH_DELETE_FAIL(108, "error", "删除失败，稍候再试"),
     CASH_PASSWORD_SUCCESS(109, "ok", "更新用户密码成功"),
-    CASH_PASSWORD_FAIL(110, "error", "原密码错误,或新密码与确认密码不一致")
+    CASH_PASSWORD_FAIL(110, "error", "更新用户密码失败"),
+    CHECK_PASSWORD_SUCCESS(112,"ok","检查原密码成功"),
+    CHECK_PASSWORD_FAIL(113,"error","检查原密码失败")
     ;
+
 
     private Integer code;
     private String result;
