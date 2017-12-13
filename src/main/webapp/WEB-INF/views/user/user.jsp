@@ -112,7 +112,7 @@
 </div>
 
 <div id="editPwdWin" class="easyui-window site_win_small input_big"  data-options="title:'编辑用户密码', closed:true">
-    <form id="editPwdForm">
+    <form id="editPwdForm" method="post">
         <input type="hidden" name="id" />
         <table>
             <tr>
@@ -121,16 +121,16 @@
                     <input type="password" class="easyui-textbox easyui-validatebox" data-options="prompt:'请输入密码',
 						required:true,
 						validType:['length[2,20]'],
-						novalidate:true" name="pwd"/>
+						novalidate:true" name="oldpwd"/>
                 </td>
             </tr>
             <tr>
                 <td>新密码</td>
                 <td>
-                    <input id="update_password" type="password" class="easyui-textbox easyui-validatebox" data-options="prompt:'请输入新密码',
+                    <input  type="password" class="easyui-textbox easyui-validatebox" data-options="prompt:'请输入新密码',
 						required:true,
 						validType:['length[2,20]'],
-						novalidate:true" name="newPwd"/>
+						novalidate:true"  name="newPwd" />
                 </td>
             </tr>
             <tr>
@@ -139,7 +139,7 @@
                     <input type="password" class="easyui-textbox easyui-validatebox" data-options="prompt:'请再次输入密码',
 						required:true,
 						validType:['length[2,20]'],
-						novalidate:true" name="conPwd"/>
+                        novalidate:true"   name="conPwd"/>
                 </td>
             </tr>
             <tr>
@@ -154,6 +154,8 @@
 
 <script>
 
+
+    //修改数据
     function openEditWin(winId, listId, formId) {
         var row = $("#" + listId).datagrid("getSelected");
         if (row) {
@@ -187,11 +189,12 @@
     }
 
     //修改密码
+
     function showUpdatePwd() {
         var row = $('#list').datagrid('getSelected');
         if (row) {
             $("#editPwdForm").form("load", row);
-            $("#update_password").textbox("setValue", "");
+            $("#newPwd").textbox("setValue", "");
             openWin("editPwdWin");
         } else {
             showInfoAlert("请选择要进行修改密码的行数")
@@ -202,7 +205,7 @@
         if (validateForm("editPwdForm")) {
             $.messager.confirm("提示", "更新该客户密码，是否继续?", function(r) {
                 if (r) {
-                    $.post(contextPath + "/user/updatePassword",
+                    $.post(contextPath + "/user/updatePwd",
                         $('#editPwdForm').serialize(),
                         function (data) {
                             if (data.result === "ok") {
