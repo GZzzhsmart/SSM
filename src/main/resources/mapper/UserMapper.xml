@@ -40,10 +40,16 @@
 		 ]]>
 	</update>
 
-	<update id="updatePwd"  parameterType="top.zzh.bean.User">
+	<select id="checkPwd" resultType="java.lang.String">
 		<![CDATA[
-        	update t_user set pwd = #{pwd} where id = #{id}
-        ]]>
+			select pwd from t_user where phone = #{phone}
+		]]>
+	</select>
+
+	<update id="updatePwd" parameterType="top.zzh.bean.User">
+		<![CDATA[
+			update t_user set pwd = #{pwd} where id = #{id}
+		]]>
 	</update>
 
 </mapper>
