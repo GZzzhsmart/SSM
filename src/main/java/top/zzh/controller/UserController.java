@@ -116,29 +116,39 @@ public class UserController {
 
     
     //检查用户密码
-    @RequestMapping("checkPwd")
-    @ResponseBody
-    public ControllerStatusVO checkPwd(String oldpwd,HttpSession session){
-        User user = (User)session.getAttribute(Constants.USER_IN_SESSION);
-        String pwd = userService.checkPwd(user.getPhone());
-        if(!pwd.equals(EncryptUtils.md5(oldpwd))){
-            return ControllerStatusVO.status(ControllerStatusEnum.CHECK_PASSWORD_FAIL);
-        }else {
-            return ControllerStatusVO.status(ControllerStatusEnum.CHECK_PASSWORD_SUCCESS);
-        }
-    }
-
-    //修改用户密码
+//    @RequestMapping("checkPwd")
+//    @ResponseBody
+//    public ControllerStatusVO checkPwd(String oldpwd,HttpSession session){
+//        ControllerStatusVO statusVO = null;
+//        User user = (User)session.getAttribute(Constants.USER_IN_SESSION);
+//        String pwd = userService.checkPwd(user.getPhone());
+//        if(!pwd.equals(EncryptUtils.md5(oldpwd))){
+//            statusVO =  ControllerStatusVO.status(ControllerStatusEnum.CHECK_PASSWORD_FAIL);
+//        }else {
+//            statusVO =  ControllerStatusVO.status(ControllerStatusEnum.CHECK_PASSWORD_SUCCESS);
+//        }
+//        return statusVO;
+//    }
+    
+   //修改用户密码
     @RequestMapping("updatePwd")
     @ResponseBody
-    public ControllerStatusVO updatePwd(String newPwd,HttpSession session){
+    public ControllerStatusVO updatePwd(String oldpwd,String newPwd,HttpSession session){
+        ControllerStatusVO statusVO = null;
         try{
             User user = (User)session.getAttribute(Constants.USER_IN_SESSION);
-            userService.updatePwd(user.getId(),EncryptUtils.md5(newPwd));
-            return ControllerStatusVO.status(ControllerStatusEnum.CASH_PASSWORD_SUCCESS);
+            String pwd = userService.checkPwd(user.getPhone());
+            if(pwd.equals(EncryptUtils.md5(oldpwd))){
+                statusVO =  ControllerStatusVO.status(ControllerStatusEnum.CHECK_PASSWORD_SUCCESS);
+                userService.updatePwd(user.getId(),EncryptUtils.md5(newPwd));
+            }else{
+                statusVO =  ControllerStatusVO.status(ControllerStatusEnum.CHECK_PASSWORD_FAIL);
+            }
+            statusVO =  ControllerStatusVO.status(ControllerStatusEnum.CASH_PASSWORD_SUCCESS);
         }catch (RuntimeException e){
-            return ControllerStatusVO.status(ControllerStatusEnum.CASH_PASSWORD_FAIL);
+            statusVO =  ControllerStatusVO.status(ControllerStatusEnum.CASH_PASSWORD_FAIL);
         }
+        return statusVO;
     }
 
     //分页
