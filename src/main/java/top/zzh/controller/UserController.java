@@ -139,15 +139,15 @@ public class UserController {
             User user = (User)session.getAttribute(Constants.USER_IN_SESSION);
             String pwd = userService.checkPwd(user.getPhone());
             if(pwd.equals(EncryptUtils.md5(oldpwd))){
-                statusVO =  ControllerStatusVO.status(ControllerStatusEnum.CHECK_PASSWORD_SUCCESS);
                 userService.updatePwd(user.getId(),EncryptUtils.md5(newPwd));
+                statusVO =  ControllerStatusVO.status(ControllerStatusEnum.CHECK_PASSWORD_SUCCESS);
             }else{
                 statusVO =  ControllerStatusVO.status(ControllerStatusEnum.CHECK_PASSWORD_FAIL);
             }
-            statusVO =  ControllerStatusVO.status(ControllerStatusEnum.CASH_PASSWORD_SUCCESS);
         }catch (RuntimeException e){
             statusVO =  ControllerStatusVO.status(ControllerStatusEnum.CASH_PASSWORD_FAIL);
         }
+        statusVO =  ControllerStatusVO.status(ControllerStatusEnum.CASH_PASSWORD_SUCCESS);
         return statusVO;
     }
 
