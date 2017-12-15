@@ -134,21 +134,19 @@ public class UserController {
     @RequestMapping("updatePwd")
     @ResponseBody
     public ControllerStatusVO updatePwd(String oldpwd,String newPwd,HttpSession session){
-        ControllerStatusVO statusVO = null;
         try{
             User user = (User)session.getAttribute(Constants.USER_IN_SESSION);
             String pwd = userService.checkPwd(user.getPhone());
             if(pwd.equals(EncryptUtils.md5(oldpwd))){
                 userService.updatePwd(user.getId(),EncryptUtils.md5(newPwd));
-                statusVO =  ControllerStatusVO.status(ControllerStatusEnum.CHECK_PASSWORD_SUCCESS);
+//                return  ControllerStatusVO.status(ControllerStatusEnum.CHECK_PASSWORD_SUCCESS);
             }else{
-                statusVO =  ControllerStatusVO.status(ControllerStatusEnum.CHECK_PASSWORD_FAIL);
+                return   ControllerStatusVO.status(ControllerStatusEnum.CHECK_PASSWORD_FAIL);
             }
         }catch (RuntimeException e){
-            statusVO =  ControllerStatusVO.status(ControllerStatusEnum.CASH_PASSWORD_FAIL);
+            return ControllerStatusVO.status(ControllerStatusEnum.CASH_PASSWORD_FAIL);
         }
-        statusVO =  ControllerStatusVO.status(ControllerStatusEnum.CASH_PASSWORD_SUCCESS);
-        return statusVO;
+        return   ControllerStatusVO.status(ControllerStatusEnum.CASH_PASSWORD_SUCCESS);
     }
 
     //分页
